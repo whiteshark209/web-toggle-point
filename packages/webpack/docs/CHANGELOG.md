@@ -103,5 +103,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Initial version, copying code from PLP
-- Added unit tests around the plugin itself, not originally developed in PLP
+- Initial commit

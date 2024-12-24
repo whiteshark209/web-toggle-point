@@ -233,4 +233,4 @@ This log covers the [monorepo](https://en.wikipedia.org/wiki/Monorepo).
 
 ### Added
 
-- Initial version, copying code from PLP.
+- Initial commit.
