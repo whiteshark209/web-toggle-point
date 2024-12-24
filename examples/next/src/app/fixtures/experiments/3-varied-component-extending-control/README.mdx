@@ -1,0 +1,10 @@
+# Extending / Composing a Module in Variation
+
+This example shows a component module being varied, and that variant
+composing the original module into its implementation.
+
+The webpack plugin ensures that circular references are avoided.
+
+If an `experiments` header is set, with a `"test-feature": { "bucket": "test-variant" }`
+decision, the "Control 1" component is composed into a "Variant 1", augmenting
+the control.

@@ -1,0 +1,36 @@
+name: Version
+
+description: Version pre-release packages
+
+inputs:
+  name:
+    description: Workspace name
+    required: true
+  version:
+    description: New version of package (without beta suffix)
+    required: true
+runs:
+  using: composite
+  steps:
+    - run: echo ${{ github.action_path }} >> $GITHUB_PATH
+      shell: bash
+
+    - id: pre-release
+      run: echo version="${{ inputs.version }}-beta.$(get-pre-release.sh)" >> $GITHUB_OUTPUT
+      env:
+        NAME: ${{ inputs.name }}
+        VERSION: ${{ inputs.version }}
+      shell: bash
+
+    - uses: actions/setup-node@v4
+      with:
+        node-version-file: .nvmrc
+        cache: npm
+
+    - name: Install
+      run: npm ci --workspace=${{ inputs.name }}
+      shell: bash
+
+    - name: Set Version
+      run: npm version "${{ steps.pre-release.outputs.version }}" --workspace=${{ inputs.name }} --git-tag-version=false
+      shell: bash

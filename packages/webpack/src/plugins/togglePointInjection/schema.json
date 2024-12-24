@@ -1,0 +1,29 @@
+{
+  "type": "object",
+  "properties": {
+    "pointCuts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "togglePointModule": { "type": "string" },
+          "variantGlob": { "type": "string" },
+          "toggleHandler": {
+            "type": "string"
+          },
+          "joinPointResolver": {
+            "instanceof": "Function"
+          }
+        },
+        "additionalProperties": false,
+        "required": ["name", "togglePointModule"]
+      }
+    },
+    "webpackNormalModule": {
+      "instanceof": "Function"
+    }
+  },
+  "additionalProperties": false,
+  "required": ["pointCuts"]
+}

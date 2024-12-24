@@ -1,0 +1,47 @@
+{
+  "name": "web-toggle-point-express-example",
+  "version": "0.2.3",
+  "type": "module",
+  "engines": {
+    "node": ">=20.6.0"
+  },
+  "private": true,
+  "scripts": {
+    "build-dependencies": "path-exists ../../packages/webpack/lib || npm run --prefix ../../packages/webpack build && path-exists ../../packages/ssr/lib || npm run --prefix ../../packages/ssr build && path-exists ../../packages/features/lib || npm run --prefix ../../packages/features build && path-exists ../../packages/react-pointcuts/lib || npm run --prefix ../../packages/react-pointcuts build",
+    "prebuild": "npm run build-dependencies",
+    "build": "webpack",
+    "start": "cross-env PORT=3002 node bin/server.cjs",
+    "start:small-env": "cross-env PORT=3003 node --env-file=./src/routes/config/.env-small bin/server.cjs",
+    "start:large-env": "cross-env PORT=3004 node --env-file=./src/routes/config/.env-large bin/server.cjs",
+    "prelint": "npm run build-dependencies",
+    "lint": "npm run lint:code && npm run lint:docs",
+    "lint:fix": "npm run lint:code -- --fix && npm run lint:docs -- --fix",
+    "lint:code": "eslint src --flag unstable_config_lookup_from_file",
+    "lint:docs": "eslint *.md --flag unstable_config_lookup_from_file"
+  },
+  "dependencies": {
+    "@asos/web-toggle-point-react-pointcuts": "file:../../packages/react-pointcuts",
+    "@asos/web-toggle-point-features": "file:../../packages/features",
+    "@asos/web-toggle-point-ssr": "file:../../packages/ssr",
+    "@asos/web-toggle-point-webpack": "file:../../packages/webpack",
+    "cross-env": "^7.0.3",
+    "express": "^4.17.1",
+    "http-status-codes": "^2.3.0",
+    "react": ">=17",
+    "react-dom": ">=17"
+  },
+  "devDependencies": {
+    "babel-loader": "^9.2.1",
+    "css-loader": "^7.1.2",
+    "mini-css-extract-plugin": "^2.9.2",
+    "path-exists-cli": "^2.0.0",
+    "prop-types": "^15.7.2",
+    "style-loader": "^4.0.0",
+    "webpack": "^5.38.1",
+    "webpack-cli": "^4.7.2",
+    "webpack-node-externals": "^3.0.0"
+  },
+  "peerDependencies": {
+    "@playwright/test": "^1.49.0"
+  }
+}

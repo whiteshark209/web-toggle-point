@@ -1,0 +1,30 @@
+.example {
+  border: 1px solid black;
+  border-radius: 5px;
+  min-width: 200px;
+  min-height: 200px;
+  max-height: 280px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 20px;
+  margin: 20px;
+  text-align: center;
+  max-width: 280px;
+}
+.control {
+  background-color: lightblue;
+}
+.variant1 {
+  background-color: lightgreen;
+}
+.variant2 {
+  background-color: lightpink;
+}
+.routeList {
+  list-style-type: circle;
+}
+.routeList li:hover {
+  list-style-type: disc
+}

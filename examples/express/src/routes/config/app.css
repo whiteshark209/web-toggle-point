@@ -1,0 +1,33 @@
+body {
+  font-family: "Didact Gothic", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  margin: auto;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+div {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+div > div {
+  border: 1px solid black;
+}
+
+ol {
+  list-style-type: none;
+  padding: 0;
+
+  li {
+    display: inline-block;
+  }
+}

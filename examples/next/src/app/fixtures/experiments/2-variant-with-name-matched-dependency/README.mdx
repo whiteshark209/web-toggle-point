@@ -1,0 +1,11 @@
+# Varying a Module And It's Dependency
+
+This example shows a component module being varied along with a local dependency.
+
+Although Join Points will, by default, be added for both the module and its dependency,
+despite the component being the only enacted point cut (imported from the wider codebase),
+the join point on the dependency will be harmlessly defused (not used) at runtime.
+
+If an `experiments` header is set, with a `"test-feature": { "bucket": "test-variant" }`
+decision, the "Control 1" component is replaced by a "Variant 1". The
+control and the variant both use their local copy of the dependency.

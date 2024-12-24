@@ -1,0 +1,53 @@
+name: Check if Package Updated
+
+description: Check if the package version in the workspace is newer than the latest published version
+
+inputs:
+  name:
+    description: Package name
+    required: true
+  version:
+    description: Package version in the workspace
+    required: true
+outputs:
+  changed:
+    description: Whether the package version in the workspace is newer than the latest published version
+    value: ${{ steps.isNewer.outcome == 'success' }}
+runs:
+  using: composite
+  steps:
+    - run: echo ${{ github.action_path }} >> $GITHUB_PATH
+      shell: bash
+
+    - id: latest_published
+      run: echo version=$(get-latest-published-release-version.sh) >> $GITHUB_OUTPUT
+      env:
+        NAME: ${{ inputs.name }}
+      shell: bash
+
+    - id: unchanged
+      if: ${{ steps.latest_published.outputs.version == inputs.version }}
+      run: |
+        echo "## 👥 Found unchanged version:
+        ${{ inputs.version }}" >> $GITHUB_STEP_SUMMARY
+      shell: bash
+
+    - if: steps.unchanged.outcome == 'skipped'
+      id: isNewer
+      run: check-if-newer.sh
+      env:
+        VERSION: ${{ inputs.version }}
+        LATEST_PUBLISHED_VERSION: ${{ steps.latest_published.outputs.version }}
+      shell: bash
+
+    - if: ${{ failure() && steps.isNewer.outcome == 'failure' }}
+      run: |
+        echo "## ⚠️ Found regression:
+        branch version (${{ inputs.version }}) is less than published version (${{ steps.latest_published.outputs.version }})" >> $GITHUB_STEP_SUMMARY
+      shell: bash
+
+    - if: steps.unchanged.outcome == 'skipped'
+      run: |
+        echo "## 🆕 Identified new version:
+        ${{ inputs.version }}" >> $GITHUB_STEP_SUMMARY
+      shell: bash

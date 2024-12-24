@@ -1,0 +1,13 @@
+{
+  "type": "object",
+  "properties": {
+    "joinPoints": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": [ "joinPoints" ]
+}

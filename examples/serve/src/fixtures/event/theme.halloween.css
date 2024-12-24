@@ -1,0 +1,9 @@
+@import url("https://fonts.googleapis.com/css?family=Nosifer&display=swap");
+.theme {
+  color: darkred;
+  font-family: Nosifer;
+}
+.theme:before, .theme:after {
+  content: "🎃";
+  padding: 0 0.5em;
+}

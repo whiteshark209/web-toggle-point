@@ -1,0 +1,42 @@
+{
+  "name": "web-toggle-point-next-example",
+  "version": "0.2.2",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build-dependencies": "path-exists ../../packages/webpack/lib || npm run --prefix ../../packages/webpack build && path-exists ../../packages/features/lib || npm run --prefix ../../packages/features build && path-exists ../../packages/react-pointcuts/lib || npm run --prefix ../../packages/react-pointcuts build",
+    "predev": "npm run build-dependencies",
+    "prebuild": "npm run build-dependencies",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "prelint": "npm run build-dependencies",
+    "lint": "npm run lint:code && npm run lint:docs",
+    "lint:fix": "npm run lint:code -- --fix && npm run lint:docs -- --fix",
+    "lint:code": "next lint",
+    "lint:docs": "eslint **/*.mdx"
+  },
+  "dependencies": {
+    "@asos/web-toggle-point-react-pointcuts": "file:../../packages/react-pointcuts",
+    "@asos/web-toggle-point-features": "file:../../packages/features",
+    "@asos/web-toggle-point-webpack": "file:../../packages/webpack",
+    "@mdx-js/loader": "^3.1.0",
+    "@mdx-js/react": "^3.1.0",
+    "@next/mdx": "^15.0.3",
+    "@types/mdx": "^2.0.13",
+    "next": "^15.0.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "remark-gfm": "^4.0.0"
+  },
+  "devDependencies": {
+    "@next/eslint-plugin-next": "^15.0.3",
+    "eslint-config-next": "^15.0.3",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-plugin-mdx": "^3.1.5",
+    "path-exists-cli": "^2.0.0"
+  },
+  "peerDependencies": {
+    "@playwright/test": "^1.49.0"
+  }
+}

@@ -1,0 +1,44 @@
+name: 📖 Documentation
+
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+      pages: write
+    steps:
+      - name: Checkout git folder
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            .git/**
+          sparse-checkout-cone-mode: false
+
+      - name: Workaround actions/checkout#1475
+        run: git config core.sparseCheckout false
+        shell: bash
+  
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: ./.github/actions/setup-node
+
+      - name: Build
+        run: npm run docs
+
+      - name: Pack
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/html/
+
+      - name: Deploy
+        uses: actions/deploy-pages@v4

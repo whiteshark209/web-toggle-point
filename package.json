@@ -1,0 +1,71 @@
+{
+  "name": "@asos/web-toggle-point",
+  "version": "0.10.1",
+  "repository": "git@github.com:asos/web-toggle-point.git",
+  "homepage": "https://asos.github.io/web-toggle-point/",
+  "license": "MIT",
+  "private": true,
+  "keywords": [
+    "asos",
+    "toggle point",
+    "feature toggles"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "npm run build --workspace packages",
+    "danger:local": "DANGER_DISABLE_TRANSPILATION=true danger local --base main",
+    "docs": "rimraf ./docs/html/* && jsdoc ./packages/*/src -c ./docs/jsdoc.conf.js",
+    "lint": "npm run lint --workspaces --if-present && npm run lint:docs && npm run lint:danger",
+    "lint:danger": "eslint danger",
+    "lint:docs": "eslint docs",
+    "lint:fix": "npm run lint:fix --workspaces --if-present && npm run lint:docs -- --fix && npm run lint:danger -- --fix",
+    "test": "npm run test:unit && npm run test:automation",
+    "test:unit": "npm test --workspace packages",
+    "test:automation": "npm test --workspace test/automation"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.23.0",
+    "@babel/core": "^7.23.2",
+    "@babel/eslint-parser": "^7.22.15",
+    "@babel/plugin-syntax-import-attributes": "^7.26.0",
+    "@babel/plugin-transform-runtime": "^7.22.15",
+    "@eslint/eslintrc": "^3.2.0",
+    "@eslint/js": "^9.15.0",
+    "@eslint/markdown": "^6.2.1",
+    "@rollup/plugin-babel": "^6.0.2",
+    "@rollup/plugin-commonjs": "^25.0.4",
+    "@rollup/plugin-node-resolve": "^15.2.1",
+    "@rollup/plugin-replace": "^5.0.1",
+    "@rollup/plugin-terser": "^0.4.3",
+    "babel-jest": "^27.0.6",
+    "browserslist-config-asos": "file:./peripheral/browserslist-config-asos",
+    "core-js": "^3.0.0",
+    "cross-env": "^7.0.3",
+    "danger": "^11.3.0",
+    "eslint": "^9.15.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-jest": "^28.9.0",
+    "eslint-plugin-jest-formatting": "^3.1.0",
+    "eslint-plugin-jsdoc": "^50.5.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-workspaces": "^0.10.1",
+    "globals": "^15.12.0",
+    "jsdoc": "^4.0.4",
+    "lint-staged": "^15.2.10",
+    "prettier": "^3.4.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "rollup": "^3.29.2"
+  },
+  "workspaces": [
+    "packages/features",
+    "packages/react-pointcuts",
+    "packages/ssr",
+    "packages/webpack",
+    "examples/*",
+    "peripheral/*",
+    "test/**/*"
+  ]
+}

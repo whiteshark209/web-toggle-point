@@ -1,0 +1,24 @@
+name: Reify the workspace
+
+description: Use "workspace-version" to find all the file:../ package references and update to reified versions
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@v4
+      with:
+        node-version-file: .nvmrc
+        cache: npm
+
+    - name: Install
+      run: npm ci
+      shell: bash
+
+      # https://github.com/Roaders/workspace-version/issues/3
+    - name: Clear non-package workspace-version
+      run: jq '.workspaces |= map(select(startswith("packages/")))' package.json > package.json.tmp && mv package.json.tmp package.json
+      shell: bash
+
+    - name: Reify workspace
+      run: npx workspace-version --independent --jsonIndent 2
+      shell: bash

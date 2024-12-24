@@ -1,0 +1,35 @@
+name: Get Package Names and Versions
+
+description: Get the names and versions of all workspace packages
+
+outputs:
+  details:
+    description: Workspace packages keyed by name with a version value and a package.json location, as objects in a array, as a JSON string
+    value: ${{ steps.details.outputs.details }}
+runs:
+  using: composite
+  steps:
+    - run: echo ${{ github.action_path }} >> $GITHUB_PATH
+      shell: bash
+
+    - id: packages
+      run: echo packages=$(get-workspace-packages.sh) >> $GITHUB_OUTPUT
+      shell: bash
+
+    - id: details
+      run: echo details=$(get-package-details.sh) >> $GITHUB_OUTPUT
+      env:
+        PACKAGES: ${{ steps.packages.outputs.packages }}
+      shell: bash
+
+    - if: ${{ failure() }}
+      run: echo "## ⚠️ No Workspace Packages Found!  Please ensure this is running in a NPM Monorepo." >> $GITHUB_STEP_SUMMARY
+      shell: bash
+
+    - if: ${{ success() }}
+      run: |
+        echo "## 📦 Found workspace packages:
+        $(get-packages-summary.sh)" >> $GITHUB_STEP_SUMMARY
+      env:
+        DETAILS: ${{ steps.details.outputs.details }}
+      shell: bash

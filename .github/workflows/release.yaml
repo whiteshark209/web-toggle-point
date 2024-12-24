@@ -1,0 +1,221 @@
+name: 🚀 Release
+
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}
+
+env:
+  PACKAGE_ARTIFACT: packages
+  UPDATED_MATRIX_ARTIFACT: updated-matrix
+  UPDATED_MATRIX_JSON_FOLDER: ${{ github.workspace }}/__updated_packages
+  IS_PRE_RELEASE: ${{ github.ref != format('refs/heads/{0}', github.event.repository.default_branch) }}
+
+jobs:
+  identify-packages:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.details.outputs.details }}
+    name: 🗂️ Identify Publishable Packages
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            **/package.json
+            .github/**
+          sparse-checkout-cone-mode: false
+
+      - name: Get details of packages
+        id: details
+        uses: ./.github/actions/get-public-packages
+
+  version:
+    needs: identify-packages
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        package: ${{ fromJson(needs.identify-packages.outputs.matrix) }}
+    name: ${{ format('🏷️ Version "{0}" Package', matrix.package.shortName) }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            ${{ matrix.package.location }}
+            peripheral/**
+            package.json
+            package-lock.json
+            .nvmrc
+            .github/**
+          sparse-checkout-cone-mode: false
+
+      - id: update-check
+        name: Check that updated packages have new version from current production release
+        uses: ./.github/actions/check-for-update
+        with:
+          name: ${{ matrix.package.name }}
+          version: ${{ matrix.package.version }}
+
+      - id: pre-release-version
+        name: Version beta packages
+        if: ${{ fromJSON(env.IS_PRE_RELEASE) && fromJson(steps.update-check.outputs.changed) }}
+        uses: ./.github/actions/version-pre-release-packages
+        with:
+          name: ${{ matrix.package.name }}
+          version: ${{ matrix.package.version }}
+
+      - name: Workaround actions/upload-artifact#176
+        if: fromJson(steps.update-check.outputs.changed)
+        run: mktemp ./tmp.XXXXXXXX
+
+      - name: Upload updated package.json to artifact
+        if: steps.pre-release-version.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ format('{0}-{1}', env.PACKAGE_ARTIFACT, matrix.package.shortName) }}
+          path: |
+            ${{ matrix.package.location }}
+            ./tmp.*
+          retention-days: 1
+
+      - id: artifact-json
+        if: fromJson(steps.update-check.outputs.changed)
+        run: |
+          mkdir -p ${{ env.UPDATED_MATRIX_JSON_FOLDER }}
+          filePath="${{ env.UPDATED_MATRIX_JSON_FOLDER }}/${{ matrix.package.shortName }}.json"
+          echo filePath="$filePath" >> $GITHUB_OUTPUT
+          echo '${{ toJson(matrix.package) }}' > "$filePath"
+        shell: bash
+
+      - name: Upload to publish matrix
+        if: steps.artifact-json.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ format('{0}-{1}', env.UPDATED_MATRIX_ARTIFACT, matrix.package.shortName) }}
+          path: |
+            ${{ steps.artifact-json.outputs.filePath }}
+            ./tmp.*
+          retention-days: 1
+
+  prepare-publish:
+    runs-on: ubuntu-latest
+    needs: version
+    outputs:
+      matrix: ${{ steps.updatedPackages.outputs.packageArray }}
+    name: 👨‍🍳 Prepare Publishing Matrix
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: ${{ env.UPDATED_MATRIX_ARTIFACT }}-*
+          merge-multiple: true
+
+      - name: Check for at least one package update
+        id: check-for-an-update
+        run: |
+          if [ -z "$(ls -A ${{ env.UPDATED_MATRIX_JSON_FOLDER }})" ]; then
+            exit 1
+          fi
+        continue-on-error: true
+        shell: bash
+
+      - name: Set failure output
+        if: steps.check-for-an-update.outcome == 'failure'
+        uses: actions/github-script@v7
+        with:
+          script: core.setFailed('No packages to publish')
+
+      - id: updatedPackages
+        name: Prepare array of packages to publish to drive matrix
+        run: echo packageArray=$(jq --slurp '.' ${{ env.UPDATED_MATRIX_JSON_FOLDER }}/*) >> $GITHUB_OUTPUT
+        shell: bash
+
+  reify-workspace:
+    runs-on: ubuntu-latest
+    needs: prepare-publish
+    name: 🏗️ Reify Package Versions
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            **/package.json
+            package-lock.json
+            .nvmrc
+            .github/**
+          sparse-checkout-cone-mode: false
+
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: ${{ env.PACKAGE_ARTIFACT }}-*
+          merge-multiple: true
+
+      - id: reify
+        name: Reify package.json files
+        uses: ./.github/actions/reify-workspace
+
+      - name: Workaround actions/upload-artifact#176
+        run: mktemp ./tmp.XXXXXXXX
+
+      - id: createPathArray
+        name: Create path array for upload to artifact
+        run: |
+          {
+            echo 'pathArray<<EOF'
+            echo ./tmp.*
+            jq --raw-output '.[] | .location' <<< '${{ needs.prepare-publish.outputs.matrix }}'
+            echo EOF
+          } >> $GITHUB_OUTPUT
+        shell: bash
+
+      - name: Upload (potentially reified) package.jsons to artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.PACKAGE_ARTIFACT }}
+          path: ${{ steps.createPathArray.outputs.pathArray }}
+          retention-days: 1
+
+  publish:
+    runs-on: ubuntu-latest
+    needs: [reify-workspace, prepare-publish]
+    strategy:
+      fail-fast: false
+      matrix:
+        package: ${{ fromJson(needs.prepare-publish.outputs.matrix) }}
+    name: ${{ format('📤 Publish "{0}" Package', matrix.package.shortName) }}
+    steps:
+      - name: Checkout git folder
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            .git/**
+          sparse-checkout-cone-mode: false
+
+      - name: Workaround actions/checkout#1475
+        run: git config core.sparseCheckout false
+        shell: bash
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.PACKAGE_ARTIFACT }}
+
+      - id: newVersion
+        name: Get new version from package.json
+        run: echo version=$(jq --raw-output '.version' ${{ matrix.package.location }}) >> $GITHUB_OUTPUT
+        shell: bash
+
+      - name: Publish package
+        uses: ./.github/actions/publish
+        with:
+          name: ${{ matrix.package.name }}
+          version: ${{ steps.newVersion.outputs.version }}
+          is-pre-release: ${{ env.IS_PRE_RELEASE }}

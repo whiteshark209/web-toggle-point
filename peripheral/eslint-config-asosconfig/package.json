@@ -1,0 +1,50 @@
+{
+  "name": "eslint-config-asosconfig",
+  "version": "4.0.2",
+  "description": "Default ESlint settings for use across projects",
+  "author": "ASOS Web Team <Web_Team@asos.com>",
+  "main": "index.js",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "^npm@7.0.0",
+  "type": "module",
+  "scripts": {
+    "inspect:index": "npx @eslint/config-inspector@latest --config index.js",
+    "inspect:jest": "npx @eslint/config-inspector@latest --config jest.js",
+    "inspect:browser": "npx @eslint/config-inspector@latest --config browser.js",
+    "inspect:server": "npx @eslint/config-inspector@latest --config server.js",
+    "inspect:react": "npx @eslint/config-inspector@latest --config react.js",
+    "inspect:rtl": "npx @eslint/config-inspector@latest --config rtl.js",
+    "inspect:cypress": "npx @eslint/config-inspector@latest --config cypress.js",
+    "inspect:puppeteer": "npx @eslint/config-inspector@latest --config puppeteer.js",
+    "inspect:wdio": "npx @eslint/config-inspector@latest --config wdio.js",
+    "inspect:playwright": "npx @eslint/config-inspector@latest --config playwright.js"
+  },
+  "dependencies": {
+    "globals": "^15.11.0"
+  },
+  "peerDependencies": {
+    "@babel/core": "^7.25.9",
+    "@babel/eslint-parser": "^7.25.9",
+    "@eslint/compat": "^1.2.0",
+    "@eslint/js": "^9.14.0",
+    "@stylistic/eslint-plugin-js": "^2.10.1",
+    "eslint": "^9.14.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-chai-friendly": "^1.0.1",
+    "eslint-plugin-cypress": "^3.5.0",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-jest": "^28.8.3",
+    "eslint-plugin-jest-formatting": ">=0.0.9",
+    "eslint-plugin-jsx-a11y": "^6.10.0",
+    "eslint-plugin-playwright": "^1.6.2",
+    "eslint-plugin-prettier": ">= 3.3.1",
+    "eslint-plugin-react": "^7.37.1",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-testing-library": "^7.0.0",
+    "eslint-plugin-wdio": "^9.0.8",
+    "prettier": "^3.3.1"
+  }
+}

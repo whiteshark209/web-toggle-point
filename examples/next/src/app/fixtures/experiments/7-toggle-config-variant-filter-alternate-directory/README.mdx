@@ -1,0 +1,22 @@
+# Using Varied Code without Toggling its Directory
+
+This example demonstrates the use of a `__toggleConfig.json` within a folder,
+preventing a variation folder from being connected to a join point, yet showing
+that this variation folder can still be accessed from elsewhere in the codebase.
+
+The use-case is for a feature that spans many parts of a codebase, yet with a desire
+that only certain join points act as an entry point to the feature.  The variant
+folder structure is used to provide a logical grouping for the feature holistically,
+but is not being used to create join points wherever they appear.  It might also be
+that a dependent module is imported by multiple consumers, and a variation is needed in
+only _some_ consumers when the variation is active.
+
+This example demonstrates a page that renders a component and a string value that is
+imported both by the page and the component.
+
+If an `experiments` header is set, with a `"test-feature": { "bucket": "test-variant" }`
+decision, the varied component will show, including the varied dependent string value
+(since it is accessing this directly from the sibling variation folder).  The version of
+the string value imported directly by the page will still show the control string value,
+since it is accessing that from the base file location, which is not varied since a
+`__toggleConfig.json` within that location has an empty `joinPoints` array.

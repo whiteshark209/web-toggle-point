@@ -1,0 +1,13 @@
+@import url("https://fonts.googleapis.com/css?family=Over+the+Rainbow&display=swap");
+.theme {
+  --gradient: linear-gradient(to right, #fff 12%, #ffafc7, #73d7ee, #613915, #000, #e50000, #ff8d00, #ffee00, #028121, #004cff, #760088 88%);
+  background: var(--gradient);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: "Over the Rainbow";
+}
+.theme:before, .theme:after {
+  -webkit-text-fill-color: initial;
+  content: "🏳️‍🌈";
+  padding: 0 0.5em;
+}

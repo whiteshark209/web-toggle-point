@@ -1,0 +1,58 @@
+name: Publish
+
+description: Publishes a package, at a given version (potentially pre-release-tagged) to the registry
+
+inputs:
+  name:
+    description: Workspace name
+    required: true
+  version:
+    description: New version of package
+    required: true
+  is-pre-release:
+    description: Publish as pre-release?
+    required: true
+runs:
+  using: composite
+  steps:
+    - run: echo ${{ github.action_path }} >> $GITHUB_PATH
+      shell: bash
+
+    - uses: actions/setup-node@v4
+      with:
+        node-version-file: .nvmrc
+        cache: npm
+
+    - name: Install
+      run: npm ci
+      shell: bash
+
+    - run: publish.sh
+      env:
+        WORKSPACE: ${{ inputs.name }}
+        PRE_RELEASE: ${{ inputs.is-pre-release }}
+      shell: bash
+
+    - if: failure()
+      run: |
+        echo "### 😞 publish failed:" >> $GITHUB_STEP_SUMMARY
+        echo '```' >> $GITHUB_STEP_SUMMARY
+        echo "$(cat publish_stderr_digest.log)" >> $GITHUB_STEP_SUMMARY
+        echo '```' >> $GITHUB_STEP_SUMMARY
+      shell: bash
+
+    - if: ${{ fromJSON(inputs.is-pre-release) }}
+      run: |
+        echo "### 🧪 published pre-release version (${{ inputs.version }}):" >> $GITHUB_STEP_SUMMARY
+      shell: bash
+
+    - if: ${{ !fromJSON(inputs.is-pre-release) }}
+      run: |
+        echo "### 📦 published version (${{ inputs.version }}):" >> $GITHUB_STEP_SUMMARY
+      shell: bash
+
+    - run: |
+        echo '```' >> $GITHUB_STEP_SUMMARY
+        echo "$(get-output-summary.sh)" >> $GITHUB_STEP_SUMMARY
+        echo '```' >> $GITHUB_STEP_SUMMARY
+      shell: bash

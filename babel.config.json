@@ -1,0 +1,16 @@
+{
+  "presets": [
+    [
+      "./peripheral/babel-preset-asos",
+      {
+        "targets": "extends browserslist-config-asos",
+        "reactRuntime": "automatic",
+        "corejs": false
+      }
+    ]
+  ],
+  "plugins": [
+    "@babel/plugin-transform-runtime",
+    "@babel/plugin-syntax-import-attributes"
+  ]
+}

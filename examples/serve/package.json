@@ -1,0 +1,33 @@
+{
+  "name": "web-toggle-point-serve-example",
+  "version": "0.2.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build-dependencies": "path-exists ../../packages/webpack/lib || npm run --prefix ../../packages/webpack build && path-exists ../../packages/features/lib || npm run --prefix ../../packages/features build",
+    "prebuild": "npm run build-dependencies",
+    "build": "webpack",
+    "start": "serve dist -l 3001",
+    "prelint": "npm run build-dependencies",
+    "lint": "npm run lint:code && npm run lint:docs",
+    "lint:fix": "npm run lint:code -- --fix && npm run lint:docs -- --fix",
+    "lint:code": "eslint src --flag unstable_config_lookup_from_file",
+    "lint:docs": "eslint *.md --flag unstable_config_lookup_from_file"
+  },
+  "dependencies": {
+    "@asos/web-toggle-point-webpack": "file:../../packages/webpack",
+    "@asos/web-toggle-point-features": "file:../../packages/features",
+    "serve": "^14.2.4"
+  },
+  "devDependencies": {
+    "css-loader": "^7.1.2",
+    "path-exists-cli": "^2.0.0",
+    "style-loader": "^4.0.0",
+    "webpack": "^5.38.1",
+    "webpack-cli": "^4.7.2",
+    "webpack-node-externals": "^3.0.0"
+  },
+  "peerDependencies": {
+    "@playwright/test": "^1.49.0"
+  }
+}

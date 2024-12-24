@@ -1,0 +1,10 @@
+# Filtering Join Points using a Toggle Config
+
+This example demonstrates the use of a `__toggleConfig.json` within a folder,
+filtering the join points to a proscribed list.
+
+If an `experiments` header is set, with a `"test-feature": { "bucket": "test-variant" }`
+decision, the "Control 1" (`component.tsx`) component is replaced by a "Variant 1".
+The "Control 2" (`component2.tsx`) component is left unvaried, because a
+`__toggleConfig.json` within the folder has a `joinPoints` array containing
+only `"component.tsx"`.

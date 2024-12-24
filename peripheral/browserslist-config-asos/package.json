@@ -1,0 +1,18 @@
+{
+  "name": "browserslist-config-asos",
+  "version": "0.5.34",
+  "author": "ASOS Web Team <Web_Team@asos.com>",
+  "private": true,
+  "keywords": [
+    "asos",
+    "browserslist"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "main": "index.js",
+  "scripts": {},
+  "dependencies": {},
+  "devDependencies": {},
+  "peerDependencies": {}
+}

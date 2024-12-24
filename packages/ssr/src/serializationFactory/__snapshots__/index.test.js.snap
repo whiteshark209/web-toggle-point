@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`serializationFactory when rendering a scriptReactElement with React should return a react element containing a JSON script tag, appropriately quoted by jsesc 1`] = `
+<script
+  id="test-id"
+  type="application/json"
+>
+  secure: {"test":"value"}
+</script>
+`;

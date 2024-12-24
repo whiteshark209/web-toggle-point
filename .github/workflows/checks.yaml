@@ -1,0 +1,134 @@
+name: Pull Request Checks
+
+on: pull_request
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+  statuses: write
+  issues: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref }}
+  cancel-in-progress: true
+
+jobs:
+  danger-lint-unit:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        action:
+          [
+            { command: "DANGER_DISABLE_TRANSPILATION=true npm exec danger ci", name: "Danger" }, # cannot transpile due to https://github.com/danger/danger-js/issues/1469
+            { command: "npm run lint", name: "Lint" },
+            { command: "npm run test:unit", name: "Unit Tests" }
+          ]
+    name: ${{ matrix.action.name }}
+    steps:
+      - name: Checkout git folder
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          sparse-checkout: |
+            .git/**
+          sparse-checkout-cone-mode: false
+
+      - name: Workaround actions/checkout#1475
+        run: git config core.sparseCheckout false
+        shell: bash
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Setup Node
+        uses: ./.github/actions/setup-node
+
+      - run: ${{ matrix.action.command }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  automation-test:
+    name: Automation Tests
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        type: ["next", "serve", "express"]
+        runner: [ubuntu-latest, windows-latest]
+    steps:
+      - name: Checkout git folder
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          sparse-checkout: |
+            .git/**
+          sparse-checkout-cone-mode: false
+          
+      - name: Workaround actions/checkout#1475
+        run: git config core.sparseCheckout false
+        shell: bash
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Setup Node
+        uses: ./.github/actions/setup-node
+
+      - name: Avoid dpkg Interruption Errors
+        if: runner.os != 'Windows'
+        run: sudo dpkg --configure -a
+
+      - name: Run automation tests
+        run: npm run test:${{ matrix.type }}
+        working-directory: ./test/automation
+
+      - name: Upload results for shard
+        uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: blob-report-${{ matrix.type }}-${{ runner.os }}
+          path: ./examples/${{ matrix.type }}/blob-report
+          retention-days: 1
+
+  merge-automation-test-reports:
+    name: Merge Automation Test Reports
+    if: ${{ !cancelled() }}
+    needs: [automation-test]
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          sparse-checkout: |
+            package.json
+            package-lock.json
+            .nvmrc
+            .github/**
+          sparse-checkout-cone-mode: false
+
+      - name: Setup Node
+        uses: ./.github/actions/setup-node
+
+      - name: Download blob reports from GitHub Actions Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: all-blob-reports
+          pattern: blob-report-*
+          merge-multiple: true
+
+      - name: Merge into HTML Report
+        run: npx playwright merge-reports --reporter=html ./all-blob-reports
+
+      - name: Upload HTML report
+        uses: actions/upload-artifact@v4
+        with:
+          name: html-report--attempt-${{ github.run_attempt }}
+          path: playwright-report
+          retention-days: 30

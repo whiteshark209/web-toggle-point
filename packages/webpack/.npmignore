@@ -1,0 +1,4 @@
+*
+!lib/*
+!docs/CHANGELOG.md
+!package.json

@@ -1,0 +1,17 @@
+# Varying a Variation
+
+This example shows compound variation, in that a component varied by "feature 1"
+can be varied again by a "feature 2".  In this instance, the same point cut
+(for experimentation) is acting on both, since it's `variantGlob` is defined
+with a recursive [`globstar`](https://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html#:~:text=globstar,only%20directories%20and%20subdirectories%20match.).
+
+If an `experiments` header is set, with a `"test-feature": { "bucket": "test-variant" }`
+decision, the "Control 1" component is replaced by a "Variant 1" component.
+
+If an `experiments` header is set, with a `"test-feature": { "bucket": "test-variant" }, "test-feature-2": { "bucket": "test-variant-2" }`
+decision, the "Control 1" component is replaced by a "Variant 1" component, which
+itself is replaced by a "Variant 2" component.
+
+If an `experiments` header is set, with a `"test-feature-2": { "bucket": "test-variant-2" }`
+decision, the "Control 1" is unaffected, since the variation in the filesystem
+is only targeting a join point within the "feature 1" variation.

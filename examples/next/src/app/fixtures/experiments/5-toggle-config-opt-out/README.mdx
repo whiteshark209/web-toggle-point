@@ -1,0 +1,7 @@
+# Opting Out of Join Points using a local Toggle Config
+
+This example demonstrates the use of a `__toggleConfig.json` within a folder, 
+restricting all potential join points to the contents of its `joinPoints` array.
+
+If an `experiments` header is set, with a `"test-feature": { "bucket": "test-variant" }` decision,
+the control component will still show, since the `__toggleConfig.json` has an empty `joinPoints` array.

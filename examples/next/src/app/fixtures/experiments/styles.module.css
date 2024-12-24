@@ -1,0 +1,38 @@
+.experiments {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 100vh;
+  padding: 2em;
+
+  & > div {
+    display: flex;
+    flex: 1 1 auto;
+    justify-content: center;
+    flex-direction: column;
+    padding: 3em;
+  }
+}
+
+.debug {
+  & script {
+    display: inline;
+    font-family: monospace;
+    width: 100%;
+    padding: 2px;
+    margin: 2px;
+    flex: 0 0 auto;
+    background: #eee;
+    border: 1px solid #ccc;
+  }
+  & script[id$="decisions"]{
+    &::before {
+      content: "decisions: ";
+    }
+  }
+  & script[id$="audience"] {
+    &::before {
+      content: "audience: ";
+    }
+  }
+}
