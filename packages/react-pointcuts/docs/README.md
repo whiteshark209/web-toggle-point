@@ -18,7 +18,7 @@ Both accept plugins, currently supporting a hook called during code activation (
 
 ## Usage
 
-See: [JSDoc output](https://asos.github.io/web-toggle-point/module-asos-web-toggle-point-react-pointcuts.html)
+See: [JSDoc output](https://asos.github.io/web-toggle-point/module-web-toggle-point-react-pointcuts.html)
 
 > [!WARNING]
 > ### Use with React 17

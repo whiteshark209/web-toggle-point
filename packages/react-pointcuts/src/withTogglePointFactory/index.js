@@ -7,17 +7,17 @@ import getCodeSelectionPlugins from "../getCodeSelectionPlugins";
 {}
 /**
  * A factory function used to create a withTogglePoint React Higher-Order-Component.
- * @memberof module:toggle-point-react-pointcuts
+ * @memberof module:web-toggle-point-react-pointcuts
  * @inner
  * @function
  * @param {object} params parameters
  * @param {function} params.getActiveFeatures a method to get active features. Called honouring the rules of hooks.
  * @param {external:HostApplication.logError} params.logError a method that logs errors
  * @param {string} [params.variantKey=bucket] A key use to identify a variant from the features data structure. Remaining members of the feature will be passed to the variant as props.
- * @param {Array<module:toggle-point-react-pointcuts~plugin>} [params.plugins] plugins to be used when toggling
+ * @param {Array<module:web-toggle-point-react-pointcuts~plugin>} [params.plugins] plugins to be used when toggling
  * Will be used when a toggled component throws an error that can be caught by an {@link https://reactjs.org/docs/error-boundaries.html|ErrorBoundary}.
  * When errors are caught, the control/base code will be used as the fallback component.
- * @returns {module:toggle-point-react-pointcuts.withTogglePoint} withTogglePoint React Higher-Order-Component.
+ * @returns {module:web-toggle-point-react-pointcuts.withTogglePoint} withTogglePoint React Higher-Order-Component.
  * @example
  * const withTogglePoint = withTogglePointFactory({
  *   getActiveFeatures,
@@ -37,7 +37,7 @@ const withTogglePointFactory = ({
   /**
    * A React Higher-Order-Component that wraps a base / control component and swaps in a variant when deemed appropriate by a context
    * @function withTogglePoint
-   * @memberof module:toggle-point-react-pointcuts
+   * @memberof module:web-toggle-point-react-pointcuts
    * @param {ReactComponentModuleNamespaceObject} controlModule The control / base module
    * @param {external:React.Component} controlModule.default The control react component
    * @param {Map} featuresMap A map of features and their variants, with features as top-level keys and variants as nested keys with modules as the values.

@@ -20,7 +20,7 @@ The join points are configured using a [glob](https://en.wikipedia.org/wiki/Glob
 
 ### Configuration
 
-See [JSDoc output](https://asos.github.io/web-toggle-point/module-asos-web-toggle-point-webpack.html)
+See [JSDoc output](https://asos.github.io/web-toggle-point/module-web-toggle-point-webpack.html)
 
 Different code paths may have different toggling needs, and may want a toggle point applied in differing ways. Independent point cuts should be configured for each different:
 

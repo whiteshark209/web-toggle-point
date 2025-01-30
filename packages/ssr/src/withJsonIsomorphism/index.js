@@ -8,7 +8,7 @@ import { useState, useEffect } from "react";
  * which are then realised into a prop when first hydrating on the client. It will be reactive to subsequent non-`undefined` prop values,
  * for that prop.
  * The package "browser" export includes the code to read the script, omitted from the "import" / "require" export (server package).
- * @memberof module:asos-web-toggle-point-ssr
+ * @memberof module:web-toggle-point-ssr
  * @inner
  * @function
  * @param {external:React.Component} WrappedComponent The React component that will receive the props.

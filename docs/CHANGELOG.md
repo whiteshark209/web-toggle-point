@@ -14,6 +14,13 @@ N.B. See changelogs for individual packages, where most change will occur:
 
 This log covers the [monorepo](https://en.wikipedia.org/wiki/Monorepo).
 
+## [0.10.2] - 2024-12-26
+
+### Fixed
+
+- "Toggle Point" to "Web Toggle Point" in title of `README.md`
+- fixed the dedupe external JSDoc plugin, after move to type imports
+
 ## [0.10.1] - 2024-12-24
 
 ### Fixed
@@ -73,7 +80,7 @@ This log covers the [monorepo](https://en.wikipedia.org/wiki/Monorepo).
 
 ### Fixed
 
-- Removed old `yarn.lock` left over from 1.0.3 update.
+- Removed old `yarn.lock` left over from 0.4.3 update.
 
 ## Added
 
@@ -85,7 +92,7 @@ This log covers the [monorepo](https://en.wikipedia.org/wiki/Monorepo).
 
 - Moved to v4 of [`upload-artifact`](https://github.com/actions/upload-artifact) and [`download-artifact`](https://github.com/actions/download-artifact) actions
 - Changed nature of pre-release packages to `beta` from `alpha` (better matching the reality of how these pre-releases are used)
-- Fixed up contribution guide since version 2.0.0 added the proposed update checks
+- Fixed up contribution guide since version 0.5.0 added the proposed update checks
 - Updated to JSDoc 4, issue with factories resolved
 
 ### Changed
@@ -127,7 +134,7 @@ This log covers the [monorepo](https://en.wikipedia.org/wiki/Monorepo).
 
 ### Fixed
 
-- Fixup documentation left fallow from package split (2.0.0)
+- Fixup documentation left fallow from package split (0.5.0)
 - Upgrade serialize-javascript to 6.0.2 to avoid [`SNYK-JS-SERIALIZEJAVASCRIPT-614760`](https://security.snyk.io/vuln/SNYK-JS-SERIALIZEJAVASCRIPT-6147607)
 - snyk ignore [`SNYK-JS-INFLIGHT-6095116`](https://security.snyk.io/vuln/SNYK-JS-INFLIGHT-6095116)
 - move to use asos runner groups
@@ -157,7 +164,7 @@ This log covers the [monorepo](https://en.wikipedia.org/wiki/Monorepo).
 ### Changed
 
 - Split the "app" package into separate "ssr", "features" and "react-pointcuts" packages.
-- Move to explicit rather than wildcard workspaces, to enable reification of the repo when publishing (waiting on [https://github.com/Roaders/workspace-version/issues/3](an issue to resolve))
+- Move to explicit rather than wildcard workspaces, to enable reification of the repo when publishing (waiting on [an issue to resolve](https://github.com/Roaders/workspace-version/issues/3))
 - Updated the `dedupeExternalJsdocPlugin` to de-duplicate members of external namespaces, rather than just the namespaces themselves (to ensure we don't duplicate React, HostApplication etc. in the html documentation)
 - Updated packages for snyk vulnerabilities, populated policy file
 - Removed redundant export fields from workspace `package.json`
@@ -175,7 +182,7 @@ This log covers the [monorepo](https://en.wikipedia.org/wiki/Monorepo).
 
 ### Added
 
-- Danger support, with checks for CHANGELOG.md updates and package-lock.json updates
+- Danger support, with checks for `CHANGELOG.md` updates and `package-lock.json` updates
 
 ### Fixed
 

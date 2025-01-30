@@ -6,13 +6,13 @@ import getCodeSelectionPlugins from "../getCodeSelectionPlugins";
 {}
 /**
  * A factory function used to create a withToggledHook React hook, wrapping an existing hook/function.
- * @memberof module:toggle-point-react-pointcuts
+ * @memberof module:web-toggle-point-react-pointcuts
  * @inner
  * @function
  * @param {object} params parameters
  * @param {function} params.getActiveFeatures a method to get active features, which is called honouring the rules of hooks.
- * @param {Array<module:toggle-point-react-pointcuts~plugin>} [params.plugins] plugins to be used when toggling
- * @returns {module:toggle-point-react-pointcuts.withToggledHook} withToggledHook hook function, use to wrap a function (either a hook itself, or a function that must be called wherever a hook can...).
+ * @param {Array<module:web-toggle-point-react-pointcuts~plugin>} [params.plugins] plugins to be used when toggling
+ * @returns {module:web-toggle-point-react-pointcuts.withToggledHook} withToggledHook hook function, use to wrap a function (either a hook itself, or a function that must be called wherever a hook can...).
  * @example
  * const getActiveFeatures = () => useContext(myContext);
  * const withToggledHook = withToggledHookFactory({
@@ -28,7 +28,7 @@ const withToggledHookFactory = ({ getActiveFeatures, plugins = [] }) => {
   /**
    * A React hook that wraps a base / control function or hook and swaps in a variant when deemed appropriate by a context
    * @function withToggledHook
-   * @memberof module:toggle-point-react-pointcuts
+   * @memberof module:web-toggle-point-react-pointcuts
    * @param {ReactHookModuleNamespaceObject} controlModule The control / base module
    * @param {(external:React.Hook|function)} controlModule.default The control react hook or function.
    * @param {Map} featuresMap A map of features and their variants, with features as top-level keys and variants as nested keys with modules as the values.

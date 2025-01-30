@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.2] - 2024-12-26
+
+### Fixed
+
+- updated some errant JSDoc namespaces
+
 ## [0.4.1] - 2024-12-17
 
 ### Removed
@@ -33,7 +39,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - a `Map` of features (de-coupling from a webpack-specific data structure)
   - a [javascript module](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules), rather than its `default` export (preparing for support of named exports)
 - updated to `react@18.3.1`, set minimum required react to `17`
-  - technically a breaking change, but `jsx-runtime` already introduced in [version 1.0.0](#100---2023-09-05)... so was already broken, oops.
+  - technically a breaking change, but `jsx-runtime` already introduced in [version 0.1.0](#010---2023-09-05)... so was already broken, oops.
 - moved package to `"type": "module"` and renamed commonJs exports to have `.cjs` extension to prevent `[ERR_REQUIRE_ESM]` errors in consumers that aren't `"type": "module"`
 
 ### Fixed

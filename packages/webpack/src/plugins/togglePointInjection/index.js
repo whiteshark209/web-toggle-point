@@ -9,7 +9,7 @@ import schema from "./schema.json";
 
 /**
  * Toggle Point Injection Plugin
- * @memberof module:toggle-point-webpack
+ * @memberof module:web-toggle-point-webpack
  * @inner
  */
 class TogglePointInjection {

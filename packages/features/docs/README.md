@@ -8,7 +8,7 @@ A store should be chosen based on the requirement for global or partitioned stat
 
 ## Usage
 
-See: [JSDoc output](https://asos.github.io/web-toggle-point/module-asos-web-toggle-point-features.html)
+See: [JSDoc output](https://asos.github.io/web-toggle-point/module-web-toggle-point-features.html)
 
 > [!WARNING]
 > ### Use with React 17

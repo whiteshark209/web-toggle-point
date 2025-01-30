@@ -1,7 +1,7 @@
 {
   "name": "@asos/web-toggle-point-ssr",
   "description": "toggle point server side rendering code",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "license": "MIT",
   "type": "module",
   "main": "./lib/main.es5.cjs",

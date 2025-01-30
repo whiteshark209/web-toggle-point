@@ -18,15 +18,15 @@ exports.defineTags = function (dictionary) {
     .synonym("external");
 };
 
-const seenExternals = new Map();
+const seen = new Map();
 exports.handlers = {
   jsdocCommentFound: function (e) {
     if (e.filename.endsWith("external.js")) {
-      const match = e.comment.match(/external:(\S+)/);
+      const match = e.comment.match(/(?:[\s\S]*@typedef \{.+\} (?<typedef>.+))?[\s\S]+external:(?<external>\S+)/);
       if (match) {
-        const [external] = match;
-        if (!seenExternals.has(external)) {
-          seenExternals.set(external, true);
+        const symbol = match.groups.typedef || match.groups.external;
+        if (!seen.has(symbol)) {
+          seen.set(symbol, true);
         } else {
           e.comment = "/**/";
         }

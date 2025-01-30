@@ -28,7 +28,7 @@ For the browser:
 
 ## Usage
 
-See: [JSDoc output](https://asos.github.io/web-toggle-point/module-asos-web-toggle-point-ssr.html)
+See: [JSDoc output](https://asos.github.io/web-toggle-point/module-web-toggle-point-ssr.html)
 
 > [!WARNING]
 > ### Use with React 17

@@ -3,9 +3,9 @@ import reactContextFeaturesStoreFactory from "../reactContext/store";
 
 /**
  * A factory function used to create a store for features, held in a {@link https://reactjs.org/docs/context.html|React context}, backed by server-side rendering.
- * A wrapper around a {@link module:toggle-point-features.reactContextFeaturesStore|reactContextFeaturesStore}, with server-side rendering supplied by the {@link module:toggle-point-ssr|toggle-point-ssr} package.
- * @memberof module:toggle-point-features
- * @returns {module:toggle-point-features.ssrBackedReactContextFeaturesStore} A store for features, held within a {@link https://reactjs.org/docs/context.html|React context}.
+ * A wrapper around a {@link module:web-toggle-point-features.reactContextFeaturesStore|reactContextFeaturesStore}, with server-side rendering supplied by the {@link module:web-toggle-point-ssr|toggle-point-ssr} package.
+ * @memberof module:web-toggle-point-features
+ * @returns {module:web-toggle-point-features.ssrBackedReactContextFeaturesStore} A store for features, held within a {@link https://reactjs.org/docs/context.html|React context}.
  */
 const ssrBackedReactContextFeaturesStoreFactory = ({
   namespace = "toggles",
@@ -18,9 +18,9 @@ const ssrBackedReactContextFeaturesStoreFactory = ({
 
   /**
    * @name ssrBackedReactContextFeaturesStore
-   * @memberof module:toggle-point-features
-   * @implements module:toggle-point-features.FeaturesStore
-   * @implements module:toggle-point-features.ContextFeaturesStore
+   * @memberof module:web-toggle-point-features
+   * @implements module:web-toggle-point-features.FeaturesStore
+   * @implements module:web-toggle-point-features.ContextFeaturesStore
    */
   return {
     providerFactory: () => {

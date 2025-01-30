@@ -1,5 +1,5 @@
 <p align="center">
-  <h1 align="center">Toggle Point</h1>
+  <h1 align="center">Web Toggle Point</h1>
 </p>
 <p align="center">
 A library providing a means to toggle or branch web application code.

@@ -3,17 +3,6 @@
  * @external HostApplication
  */
 /**
- * A factory for SDKs; should return an instance of asos-web-features when called with "features"
- * @callback external:HostApplication.sdkInstanceProvider
- * @async
- * @type {Function}
- * @param {string} sdkName Name of the SDK to access; will be passed "features"
- * @returns {external:asos-web-features}
- * @see SiteChrome SDK interface {@link https://asoscom.atlassian.net/wiki/spaces/WEB/pages/593592455/SCP+-+Interface+Definition#SDK-Instances|SDK Instances}
- * @example
- * const sdkInstance = await sdkInstanceProvider("features");
- */
-/**
  * A delegate passed to log an error
  * @callback external:HostApplication.logError
  * @type {Function}
