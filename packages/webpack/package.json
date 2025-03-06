@@ -1,7 +1,7 @@
 {
   "name": "@asos/web-toggle-point-webpack",
   "description": "toggle point webpack plugin",
-  "version": "0.7.3",
+  "version": "0.7.4",
   "license": "MIT",
   "type": "module",
   "main": "./lib/main.cjs",
@@ -11,6 +11,17 @@
       "require": "./lib/main.cjs"
     },
     "./pathSegmentToggleHandler": "./lib/pathSegmentToggleHandler.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/asos/web-toggle-point.git",
+    "directory": "packages/webpack"
+  },
+  "bugs": {
+    "url": "https://github.com/asos/web-toggle-point/issues"
+  },
+  "directories": {
+    "doc": "docs"
   },
   "scripts": {
     "build": "npm run clean && rollup -c build/rollup.mjs",

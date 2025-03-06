@@ -14,6 +14,12 @@ N.B. See changelogs for individual packages, where most change will occur:
 
 This log covers the [monorepo](https://en.wikipedia.org/wiki/Monorepo).
 
+## [0.10.3] - 2025-02-27
+
+### Fixed
+
+- GHA pipelines for publishing to public/scoped NPM repository
+
 ## [0.10.2] - 2024-12-26
 
 ### Fixed

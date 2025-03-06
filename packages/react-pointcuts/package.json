@@ -1,7 +1,7 @@
 {
   "name": "@asos/web-toggle-point-react-pointcuts",
   "description": "react pointcut code",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "license": "MIT",
   "type": "module",
   "main": "./lib/main.es5.cjs",
@@ -14,6 +14,17 @@
       "import": "./lib/browser.js",
       "require": "./lib/browser.es5.cjs"
     }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/asos/web-toggle-point.git",
+    "directory": "packages/react-pointcuts"
+  },
+  "bugs": {
+    "url": "https://github.com/asos/web-toggle-point/issues"
+  },
+  "directories": {
+    "doc": "docs"
   },
   "scripts": {
     "build": "npm run clean && npm run build:browser && npm run build:server",

@@ -219,3 +219,5 @@ jobs:
           name: ${{ matrix.package.name }}
           version: ${{ steps.newVersion.outputs.version }}
           is-pre-release: ${{ env.IS_PRE_RELEASE }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}

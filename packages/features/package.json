@@ -1,7 +1,7 @@
 {
   "name": "@asos/web-toggle-point-features",
   "description": "toggle point features code",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "license": "MIT",
   "type": "module",
   "main": "./lib/main.es5.cjs",
@@ -15,6 +15,17 @@
       "import": "./lib/browser.js",
       "require": "./lib/browser.es5.cjs"
     }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/asos/web-toggle-point.git",
+    "directory": "packages/features"
+  },
+  "bugs": {
+    "url": "https://github.com/asos/web-toggle-point/issues"
+  },
+  "directories": {
+    "doc": "docs"
   },
   "scripts": { 
     "build-dependencies": "path-exists ../../packages/ssr/lib || npm run --prefix ../../packages/ssr build",

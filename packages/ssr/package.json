@@ -1,7 +1,7 @@
 {
   "name": "@asos/web-toggle-point-ssr",
   "description": "toggle point server side rendering code",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "license": "MIT",
   "type": "module",
   "main": "./lib/main.es5.cjs",
@@ -14,6 +14,17 @@
       "import": "./lib/browser.js",
       "require": "./lib/browser.es5.cjs"
     }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/asos/web-toggle-point.git",
+    "directory": "packages/ssr"
+  },
+  "bugs": {
+    "url": "https://github.com/asos/web-toggle-point/issues"
+  },
+  "directories": {
+    "doc": "docs"
   },
   "scripts": {
     "build": "npm run clean && npm run build:browser && npm run build:server",
